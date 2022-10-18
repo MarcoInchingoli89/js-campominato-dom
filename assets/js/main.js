@@ -51,7 +51,6 @@ function generateCells(grid, cellsNumber) {
         cellElement.className = 'cell';
         cellElement.innerText = i;
         grid.insertAdjacentElement("beforeend", cellElement);
-
         /*Al click la cella cambia colore e stampa il numero della cella*/
         //Creo un eventListener per celle in modo che cambino colore al click
         cellElement.addEventListener('click', function () {
@@ -82,7 +81,7 @@ const bombs = [];
 generateBombs(1, gridLevel);
 function generateBombs(min, max) {
     //Con un ciclo while andiamo a verificare se le bombe casuali sono uguali o meno finché non raggiungiamo il totale di 16 bombe
-    while (bombs !== 16) {
+    while (bombs.lenght !== 16) {
         //Se non ci sono bombe all'interno di bombs ne mette una finché non raggiunge un totale di 16
         if (!bombs.includes(bomb)) {
             bombs.push(bomb);
@@ -93,4 +92,23 @@ function generateBombs(min, max) {
 }
 
 
-console.log(bombs);
+/* console.log(bombs); */
+
+/*In seguito l'utente clicca su una cella: se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - la cella si colora di rosso e la partita termina. Altrimenti la cella cliccata si colora di azzurro e l'utente può continuare a cliccare sulle altre celle.*/
+
+//Impostiamo in una variabile le bombe casuali
+const randomBombs = generateBombs(1, gridLevel);
+//Selezioniamo tutte le celle
+const cells = document.getElementsByClassName("cell");
+console.log(cells)
+for (let i = 0; i < cells.length; i++) {
+    const cell = cells[i];
+    console.log(cell)
+    cell.addEventListener('click', function () {
+        if (i === randomBombs) {
+            cell.style.backgroundColor = 'red';
+        } else {
+            cell.style.backgroundColor = 'aqua';
+        }
+    })
+}
