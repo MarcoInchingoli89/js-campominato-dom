@@ -1,8 +1,93 @@
-.cell {
+/* .cell {
     width: calc(100% / 8);
     aspect-ratio: 1/1;
     border: 2px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.active {
+    background-color: aqua;
+}
+
+.danger {
+    background-color: red;
+} */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#menu h1 {
+    margin: 0;
+}
+
+#menu button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#menu button:hover {
+    background-color: #3e8e41;
+}
+
+.grid {
+    border: 1px solid black;
+}
+
+#grid-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: auto;
+    width: 480px;
+}
+
+#grid {
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 5px;
+}
+
+#grid.hide {
+    display: none;
+}
+
+.cell {
+    display: inline-block;
+    width: calc(100% / 10);
+    height: calc(100% / 10);
+    font-size: 20px;
+    border: 1px solid black;
+    text-align: center;
+    vertical-align: middle;
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.hide {
+    display: none;
 }

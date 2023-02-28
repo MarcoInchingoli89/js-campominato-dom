@@ -20,95 +20,77 @@ Quando l'utente clicca su ogni cella, la cella cliccata si colora di azzurro ed 
 
 /* Istruzioni */
 
-/*Creiamo la griglia*/
-//Crea un container su html
-//Seleziona il container con queryselector
-//Lo inseriamo in una variabile
-const gridContainer = document.querySelector('.container');
-//Seleziona il pulsante
-//Inseriscilo in una variabile
-const playButton = document.querySelector('button');
-//Numero massimo di celle per livello
-const gridLevel = 100;
-/* console.log(cellsPerRow); */
+function generateGrid() {
 
-/* Pulsante che genera la griglia */
-//Aggiungiamo un eventListener al click del pulsante per generare la griglia
-playButton.addEventListener('click', function () {
-    /* console.log('Ho cliccato'); */
-    //Svuoto il container al click
-    gridContainer.innerHTML = '';
-    generateCells(gridContainer, gridLevel);
+    var playBtn = document.getElementById("play-btn");
+    playBtn.addEventListener("click", startGame);
 
-})
+    function startGame() {
+        // Nascondi il menu e il pulsante Gioca
+        var menu = document.getElementById("menu");
+        menu.classList.add("hide");
+        var title = document.getElementsByTagName("h1")[0];
+        title.classList.add("hide");
 
-/*Funzione che genera le celle*/
-//Scriviamo una funzione per generare le celle
-function generateCells(grid, cellsNumber) {
-    for (let i = 1; i <= cellsNumber; i++) {
-        //Inserisco il markup con la classe cell e i numeri inclusi nella variabile i all'interno del mio html
-        const cellElement = document.createElement('div');
-        cellElement.className = 'cell';
-        cellElement.innerText = i;
-        grid.insertAdjacentElement("beforeend", cellElement);
-        /*Al click la cella cambia colore e stampa il numero della cella*/
-        //Creo un eventListener per celle in modo che cambino colore al click
-        cellElement.addEventListener('click', function () {
-            //Imposto un colore di sfondo da js
-            this.style.backgroundColor = 'aqua';
-            //Stampo il numero della cella cliccata su console con innerText che mi scrive il testo all'interno di un elemento, il numero in questo caso
-            console.log(this.innerText);
-        })
+        // Nascondi il pulsante Gioca
+        playBtn.classList.add("hide");
+
+        // Genera la griglia di gioco in base alla difficoltà selezionata
+        var difficulty = document.getElementById("difficulty").value;
+        var gridSize = getGridSize(difficulty);
+        generateCells(gridSize);
+        showGrid();
     }
 
-
-
-}
-
-/*Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.*/
-
-//Genero i numeri casuali con una funzione math random
-function generateRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-//Imposto le nostre bombe casuali in un range da 1 a 100
-const bomb = generateRandomNumber(1, 100);
-/* console.log(bomb) */
-//Imposto un contatore per le bombe
-const bombs = [];
-//Imposto i parametri da 1 al mio numero di celle massimo nella mia funzione
-generateBombs(1, gridLevel);
-function generateBombs(min, max) {
-    //Con un ciclo while andiamo a verificare se le bombe casuali sono uguali o meno finché non raggiungiamo il totale di 16 bombe
-    while (bombs.lenght !== 16) {
-        //Se non ci sono bombe all'interno di bombs ne mette una finché non raggiunge un totale di 16
-        if (!bombs.includes(bomb)) {
-            bombs.push(bomb);
+    function getGridSize(difficulty) {
+        switch (difficulty) {
+            case "facile":
+                return 5;
+            case "medio":
+                return 8;
+            case "difficile":
+                return 10;
+            default:
+                return 5;
         }
-    
-        return bombs
     }
-}
 
+    function calculateCellSize(size) {
+        var gridSize = size * size;
+        var gridWidth = document.getElementById("grid-container").offsetWidth;
+        var cellSize = Math.floor(gridWidth / Math.sqrt(gridSize)) - 10; // sottrai 10px per il bordo della cella
+        return cellSize;
+    }
 
-/* console.log(bombs); */
-
-/*In seguito l'utente clicca su una cella: se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - la cella si colora di rosso e la partita termina. Altrimenti la cella cliccata si colora di azzurro e l'utente può continuare a cliccare sulle altre celle.*/
-
-//Impostiamo in una variabile le bombe casuali
-const randomBombs = generateBombs(1, gridLevel);
-//Selezioniamo tutte le celle
-const cells = document.getElementsByClassName("cell");
-console.log(cells)
-for (let i = 0; i < cells.length; i++) {
-    const cell = cells[i];
-    console.log(cell)
-    cell.addEventListener('click', function () {
-        if (i === randomBombs) {
-            cell.style.backgroundColor = 'red';
-        } else {
-            cell.style.backgroundColor = 'aqua';
+    function generateCells(size) {
+        console.log("Generating grid with size:", size);
+        var gridSize = size * size;
+        var grid = document.getElementById("grid");
+        var gridContainer = document.getElementById("grid-container");
+        gridContainer.style.width = (cellSize * numColumns + 10) + "px";
+        grid.innerHTML = "";
+        // Calcola il numero di colonne in base alla dimensione della griglia
+        var numColumns = Math.sqrt(gridSize);
+        var cellSize = calculateCellSize(size);
+        for (var i = 1; i <= gridSize; i++) {
+            var cell = document.createElement("div");
+            cell.innerHTML = i;
+            cell.classList.add("cell");
+            // Calcola la larghezza delle celle in base al numero di colonne
+            var cellSize = Math.floor(500 / numColumns) - 5;
+            // Imposta la larghezza e l'altezza delle celle in base alla variabile cellSize
+            cell.style.width = cellSize + "px";
+            cell.style.height = cellSize + "px";
+            cell.addEventListener("click", function () {
+                this.style.backgroundColor = "blue";
+                console.log(this.innerHTML);
+            });
+            grid.appendChild(cell);
         }
-    })
+        // Imposta il numero di colonne nella griglia
+        grid.style.gridTemplateColumns = "repeat(" + numColumns + ", 1fr)";
+
+    }
+
 }
+
