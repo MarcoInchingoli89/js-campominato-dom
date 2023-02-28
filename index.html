@@ -10,18 +10,20 @@
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 
-<body>
+<body style="background-color: #f2f2f2;">
 
   <div id="menu">
     <h1>Campo Minato</h1>
     <label for="difficulty">Seleziona la difficoltà:</label>
-    <select id="difficulty">
+    <select id="difficulty-select">
       <option value="facile">Facile</option>
       <option value="medio">Medio</option>
       <option value="difficile">Difficile</option>
     </select>
     <button onclick="generateGrid()" id="play-btn">Gioca</button>
   </div>
+  <button onclick="resetGame()" id="reset-btn" class="hide">Reset</button>
+
 
   <div id="grid-container">
     <div id="grid"></div>

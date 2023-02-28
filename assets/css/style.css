@@ -30,26 +30,54 @@ body {
 #menu {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-top: 100px;
 }
 
 #menu h1 {
-    margin: 0;
+    font-size: 48px;
+    margin-bottom: 30px;
+}
+
+#menu label {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#menu select {
+    font-size: 24px;
+    margin-bottom: 30px;
 }
 
 #menu button {
-    background-color: #4CAF50;
-    color: white;
+    font-size: 24px;
+    padding: 10px 30px;
     border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
+    background-color: #008CBA;
+    color: white;
     cursor: pointer;
 }
 
 #menu button:hover {
+    background-color: #006080;
+}
+
+#menu.hide {
+    display: none;
+}
+
+#reset-btn {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#reset-btn:hover {
     background-color: #3e8e41;
 }
 
@@ -80,12 +108,17 @@ body {
     width: calc(100% / 10);
     height: calc(100% / 10);
     font-size: 20px;
-    border: 1px solid black;
     text-align: center;
     vertical-align: middle;
     margin: 0;
     padding: 10px;
     box-sizing: border-box;
+    border: 1px solid #bbb;
+    background-color: #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+
+
 }
 
 .hide {

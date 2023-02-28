@@ -23,24 +23,46 @@ Quando l'utente clicca su ogni cella, la cella cliccata si colora di azzurro ed 
 function generateGrid() {
 
     var playBtn = document.getElementById("play-btn");
+    var resetBtn = document.getElementById("reset-btn");
     playBtn.addEventListener("click", startGame);
+    resetBtn.addEventListener("click", resetGame);
 
     function startGame() {
-        // Nascondi il menu e il pulsante Gioca
+        // Nascondi il menu
         var menu = document.getElementById("menu");
         menu.classList.add("hide");
-        var title = document.getElementsByTagName("h1")[0];
-        title.classList.add("hide");
 
-        // Nascondi il pulsante Gioca
-        playBtn.classList.add("hide");
+        // Mostra il pulsante reset dopo aver nascosto il menu
+        resetBtn.classList.remove("hide");
 
         // Genera la griglia di gioco in base alla difficoltà selezionata
-        var difficulty = document.getElementById("difficulty").value;
+        var difficulty = document.getElementById("difficulty-select").value;
         var gridSize = getGridSize(difficulty);
         generateCells(gridSize);
-        showGrid();
+
+        // Mostra la griglia di gioco
+        var grid = document.getElementById("grid");
+        grid.classList.remove("hide");
     }
+
+    function resetGame() {
+        // Mostra il menu e nascondi la griglia di gioco e il pulsante Reset
+        var menu = document.getElementById("menu");
+        menu.classList.remove("hide");
+        var title = document.getElementsByTagName("h1")[0];
+        title.classList.remove("hide");
+        var grid = document.getElementById("grid");
+        grid.classList.add("hide");
+        resetBtn.classList.add("hide");
+        // Rimuovi eventuali stili inline impostati sui nodi HTML
+        var cells = document.getElementsByClassName("cell");
+        for (var i = 0; i < cells.length; i++) {
+            cells[i].removeAttribute("style");
+        }
+        var gridContainer = document.getElementById("grid-container");
+        gridContainer.removeAttribute("style");
+    }
+
 
     function getGridSize(difficulty) {
         switch (difficulty) {
@@ -58,7 +80,13 @@ function generateGrid() {
     function calculateCellSize(size) {
         var gridSize = size * size;
         var gridWidth = document.getElementById("grid-container").offsetWidth;
-        var cellSize = Math.floor(gridWidth / Math.sqrt(gridSize)) - 10; // sottrai 10px per il bordo della cella
+        var maxCellSize = Math.floor(gridWidth / Math.sqrt(gridSize)) - 10; // sottrai 10px per il bordo della cella
+        var maxGridSize = maxCellSize * Math.sqrt(gridSize);
+        var cellSize = maxCellSize;
+        if (maxGridSize > gridWidth) {
+            cellSize = Math.floor(gridWidth / Math.sqrt(gridSize)) - 20; // sottrai 20px per il bordo della cella e il margine tra le celle
+        }
+
         return cellSize;
     }
 
@@ -67,17 +95,15 @@ function generateGrid() {
         var gridSize = size * size;
         var grid = document.getElementById("grid");
         var gridContainer = document.getElementById("grid-container");
+        var numColumns = Math.sqrt(gridSize);
+        var cellSize = calculateCellSize(size);
         gridContainer.style.width = (cellSize * numColumns + 10) + "px";
         grid.innerHTML = "";
         // Calcola il numero di colonne in base alla dimensione della griglia
-        var numColumns = Math.sqrt(gridSize);
-        var cellSize = calculateCellSize(size);
         for (var i = 1; i <= gridSize; i++) {
             var cell = document.createElement("div");
             cell.innerHTML = i;
             cell.classList.add("cell");
-            // Calcola la larghezza delle celle in base al numero di colonne
-            var cellSize = Math.floor(500 / numColumns) - 5;
             // Imposta la larghezza e l'altezza delle celle in base alla variabile cellSize
             cell.style.width = cellSize + "px";
             cell.style.height = cellSize + "px";
