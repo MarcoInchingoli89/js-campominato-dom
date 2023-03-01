@@ -125,6 +125,10 @@ body {
     background-color: red;
 }
 
+#end-game-message {
+    margin-top: 1rem;
+}
+
 .hide {
     display: none;
 }

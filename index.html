@@ -22,7 +22,12 @@
     </select>
     <button onclick="generateGrid()" id="play-btn">Gioca</button>
   </div>
-  <button onclick="resetGame()" id="reset-btn" class="hide">Reset</button>
+
+  <div id="end-game-message" class="hide">
+    <h2 id="end-game-heading"></h2>
+    <p id="end-game-score"></p>
+    <button onclick="resetGame()" id="reset-btn">Nuova partita</button>
+  </div>
 
 
   <div id="grid-container">

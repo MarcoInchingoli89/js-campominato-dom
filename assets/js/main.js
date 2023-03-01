@@ -32,9 +32,6 @@ function generateGrid() {
         var menu = document.getElementById("menu");
         menu.classList.add("hide");
 
-        // Mostra il pulsante reset dopo aver nascosto il menu
-        resetBtn.classList.remove("hide");
-
         // Genera la griglia di gioco in base alla difficoltà selezionata
         var difficulty = document.getElementById("difficulty-select").value;
         var gridSize = getGridSize(difficulty);
@@ -53,6 +50,8 @@ function generateGrid() {
         title.classList.remove("hide");
         var grid = document.getElementById("grid");
         grid.classList.add("hide");
+        var endGameMessage = document.getElementById("end-game-message");
+        endGameMessage.classList.add("hide");
         resetBtn.classList.add("hide");
         // Rimuovi eventuali stili inline impostati sui nodi HTML
         var cells = document.getElementsByClassName("cell");
@@ -151,7 +150,13 @@ function generateGrid() {
                     grid.querySelectorAll(".cell").forEach(function (cell) {
                         cell.removeEventListener("click", cellClickHandler);
                     });
-                    alert("Hai perso! Il tuo punteggio è " + cellsClicked);
+                    // mostra messaggio di sconfitta
+                    var endGameMessage = document.getElementById("end-game-message");
+                    var endGameHeading = document.getElementById("end-game-heading");
+                    var endGameScore = document.getElementById("end-game-score");
+                    endGameMessage.classList.remove("hide");
+                    endGameHeading.textContent = "Hai perso!";
+                    endGameScore.textContent = "Il tuo punteggio è " + cellsClicked;
                 });
             } else {
                 cell.addEventListener("click", cellClickHandler);
@@ -167,7 +172,13 @@ function generateGrid() {
                 grid.querySelectorAll(".cell").forEach(function (cell) {
                     cell.removeEventListener("click", cellClickHandler);
                 });
-                alert("Hai vinto! Il tuo punteggio è " + cellsClicked);
+                var endGameMessage = document.getElementById("end-game-message");
+                var endGameHeading = document.getElementById("end-game-heading");
+                var endGameScore = document.getElementById("end-game-score");
+                endGameMessage.classList.remove("hide");
+                endGameHeading.textContent = "Hai vinto!";
+                endMessage.style.display = "block";
+                endGameScore.textContent = "Il tuo punteggio è " + cellsClicked;
             }
         }
     }
