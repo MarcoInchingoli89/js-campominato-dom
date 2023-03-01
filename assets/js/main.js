@@ -99,24 +99,64 @@ function generateGrid() {
         var cellSize = calculateCellSize(size);
         gridContainer.style.width = (cellSize * numColumns + 10) + "px";
         grid.innerHTML = "";
-        // Calcola il numero di colonne in base alla dimensione della griglia
-        for (var i = 1; i <= gridSize; i++) {
-            var cell = document.createElement("div");
-            cell.innerHTML = i;
-            cell.classList.add("cell");
-            // Imposta la larghezza e l'altezza delle celle in base alla variabile cellSize
-            cell.style.width = cellSize + "px";
-            cell.style.height = cellSize + "px";
-            cell.addEventListener("click", function () {
-                this.style.backgroundColor = "blue";
-                console.log(this.innerHTML);
-            });
-            grid.appendChild(cell);
-        }
+
         // Imposta il numero di colonne nella griglia
         grid.style.gridTemplateColumns = "repeat(" + numColumns + ", 1fr)";
 
+        // Calcola il numero di bombe in base alla difficoltà selezionata
+        var difficulty = document.getElementById("difficulty-select").value;
+        var numBombs;
+        switch (difficulty) {
+            case "facile":
+                numBombs = 2;
+                break;
+            case "medio":
+                numBombs = 6;
+                break;
+            case "difficile":
+                numBombs = 10;
+                break;
+            default:
+                numBombs = 2;
+                break;
+        }
+
+        var bombs = [];
+        // Genera le bombe in modo casuale
+        while (bombs.length < numBombs) {
+            var randomIndex = Math.floor(Math.random() * gridSize);
+            if (!bombs.includes(randomIndex)) {
+                bombs.push(randomIndex);
+            }
+        }
+
+        // Crea le celle della griglia
+        for (var i = 0; i < gridSize; i++) {
+            var cell = document.createElement("div");
+            cell.classList.add("cell");
+
+            // Imposta la larghezza e l'altezza delle celle in base alla variabile cellSize
+            cell.style.width = cellSize + "px";
+            cell.style.height = cellSize + "px";
+
+            // Se la cella contiene una bomba, aggiungi la classe "bomb"
+            if (bombs.includes(i)) {
+                cell.classList.add("bomb");
+                cell.style.backgroundColor = "#ddd"; // Nasconde la bomba
+                cell.addEventListener("click", function () {
+                    this.style.backgroundColor = "red"; // Mostra la bomba al click
+                });
+            } else {
+                cell.addEventListener("click", function () {
+                    this.style.backgroundColor = "white";
+                    console.log(this.innerHTML);
+                });
+            }
+
+            grid.appendChild(cell);
+        }
     }
+
 
 }
 

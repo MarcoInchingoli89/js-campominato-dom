@@ -121,6 +121,10 @@ body {
 
 }
 
+.cell.bomb {
+    background-color: red;
+}
+
 .hide {
     display: none;
 }
