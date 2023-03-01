@@ -97,7 +97,7 @@ function generateGrid() {
         var gridContainer = document.getElementById("grid-container");
         var numColumns = Math.sqrt(gridSize);
         var cellSize = calculateCellSize(size);
-        gridContainer.style.width = (cellSize * numColumns + 10) + "px";
+        gridContainer.style.width = cellSize * numColumns + 10 + "px";
         grid.innerHTML = "";
 
         // Imposta il numero di colonne nella griglia
@@ -130,6 +130,9 @@ function generateGrid() {
             }
         }
 
+        var cellsClicked = 0;
+        var cellsToClick = gridSize - numBombs;
+
         // Crea le celle della griglia
         for (var i = 0; i < gridSize; i++) {
             var cell = document.createElement("div");
@@ -145,17 +148,30 @@ function generateGrid() {
                 cell.style.backgroundColor = "#ddd"; // Nasconde la bomba
                 cell.addEventListener("click", function () {
                     this.style.backgroundColor = "red"; // Mostra la bomba al click
+                    grid.querySelectorAll(".cell").forEach(function (cell) {
+                        cell.removeEventListener("click", cellClickHandler);
+                    });
+                    alert("Hai perso! Il tuo punteggio è " + cellsClicked);
                 });
             } else {
-                cell.addEventListener("click", function () {
-                    this.style.backgroundColor = "white";
-                    console.log(this.innerHTML);
-                });
+                cell.addEventListener("click", cellClickHandler);
             }
 
             grid.appendChild(cell);
         }
+
+        function cellClickHandler() {
+            this.style.backgroundColor = "white";
+            cellsClicked++;
+            if (cellsClicked == cellsToClick) {
+                grid.querySelectorAll(".cell").forEach(function (cell) {
+                    cell.removeEventListener("click", cellClickHandler);
+                });
+                alert("Hai vinto! Il tuo punteggio è " + cellsClicked);
+            }
+        }
     }
+
 
 
 }
